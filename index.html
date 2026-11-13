@@ -205,6 +205,9 @@ form.res-form::before{content:"";position:absolute;top:-34px;right:26px;width:88
 .field input,.field select,.field textarea{font:inherit;font-size:.95rem;padding:12px 14px;border-radius:12px;border:2px solid #ecd9b8;background:#fff;color:var(--carvao);outline:none;transition:border .2s;width:100%}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--vermelho)}
 .field textarea{resize:vertical;min-height:70px}
+.field input[type=date]{-webkit-appearance:none;appearance:none;min-width:0;max-width:100%;display:block;text-align:left;min-height:48px}
+.field input[type=date]::-webkit-date-and-time-value{text-align:left}
+.field{min-width:0}
 .res-form .btn{width:100%;justify-content:center;margin-top:18px;font-size:1.05rem;padding:16px}
 .res-form .fine{font-size:.76rem;color:#8a6b60;text-align:center;margin-top:10px}
 
@@ -704,14 +707,22 @@ document.getElementById('resForm').addEventListener('submit',e=>{
   const d=dt.value?dt.value.split('-').reverse().join('/'):'';
   const dia=dt.value?new Date(dt.value+'T12:00').getDay():-1;
   if(dia===0){alertBox('Aos domingos estamos fechados. Escolha outro dia 😉');return}
-  const msg=`🔥 *Reserva - Brasa & Lenha* 🔥%0A%0A`+
-    `*Nome:* ${encodeURIComponent(nome.value.trim())}%0A`+
-    `*Data:* ${d}%0A*Horário:* ${document.getElementById('rHora').value}%0A`+
-    `*Pessoas:* ${document.getElementById('rPessoas').value}%0A`+
-    `*Ocasião:* ${encodeURIComponent(document.getElementById('rOcasiao').value)}%0A`+
-    (document.getElementById('rObs').value.trim()?`*Obs.:* ${encodeURIComponent(document.getElementById('rObs').value.trim())}%0A`:'')+
-    `%0AAguardo a confirmação!`;
-  window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank');
+  const dias=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+  const obs=document.getElementById('rObs').value.trim();
+  const linhas=[
+    '🔥 *PEDIDO DE RESERVA – BRASA & LENHA* 🔥','',
+    'Olá! Gostaria de reservar uma mesa:','',
+    '👤 *Nome:* '+nome.value.trim(),
+    '📅 *Data:* '+d+(dia>=0?' ('+dias[dia]+')':''),
+    '⏰ *Horário:* '+document.getElementById('rHora').value,
+    '👥 *Pessoas:* '+document.getElementById('rPessoas').value,
+    '🎉 *Ocasião:* '+document.getElementById('rOcasiao').value,
+    '📝 *Observações:* '+(obs||'nenhuma'),'',
+    'Vocês têm disponibilidade para essa data e horário? Aguardo a confirmação. Obrigado!'
+  ];
+  const url='https://wa.me/'+WHATS+'?text='+encodeURIComponent(linhas.join('\n'));
+  const w=window.open(url,'_blank');
+  if(!w) location.href=url;
 });
 function alertBox(t){const f=document.querySelector('.res-form .fine');f.textContent=t;f.style.color='#d62e1f';f.style.fontWeight='700'}
 
