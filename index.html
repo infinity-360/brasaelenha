@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brasa & Lenha Pizzaria | Rodízio de pizzas, carnes, fritas e sorvetes em Apucarana</title>
+<meta name="description" content="Brasa & Lenha Pizzaria — rodízio de pizzas, carnes na brasa, fritas e sorvetes. Av. Curitiba, 1716, Centro, Apucarana-PR. Segunda a sábado, 19h às 23h. Reservas pelo WhatsApp e delivery pelo Anota Aí e iFood.">
+<meta name="theme-color" content="#120a08">
+<meta property="og:title" content="Brasa & Lenha Pizzaria — Apucarana">
+<meta property="og:description" content="Rodízio de pizzas, carnes, fritas e sorvetes. Reserve sua mesa ou peça delivery.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
+<style>
+:root{
+  --carvao:#120a08; --carvao2:#1c0f0b; --brasa:#8e1712; --vermelho:#d62e1f; --fogo:#ff6a1a;
+  --amarelo:#f4c21f; --amarelo2:#ffd84a; --verde:#3e9b3a; --creme:#fff4dc;
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--carvao);color:var(--creme);overflow-x:hidden;line-height:1.55}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.anton{font-family:'Anton',Impact,sans-serif;letter-spacing:.5px}
+.lilita{font-family:'Lilita One',cursive}
+.wrap{width:min(1180px,92vw);margin:0 auto}
+
+/* ===== LOADER ===== */
+#loader{position:fixed;inset:0;z-index:999;background:var(--carvao);display:grid;place-items:center;transition:opacity .7s,visibility .7s}
+#loader.out{opacity:0;visibility:hidden}
+#loader img{width:130px;animation:spin 2.4s cubic-bezier(.6,0,.4,1) infinite;filter:drop-shadow(0 0 30px rgba(255,106,26,.55))}
+#loader p{margin-top:18px;font-family:'Lilita One';color:var(--amarelo);letter-spacing:2px;text-align:center}
+@keyframes spin{0%{transform:rotate(0) scale(.92)}50%{transform:rotate(180deg) scale(1.04)}100%{transform:rotate(360deg) scale(.92)}}
+
+/* ===== HEADER ===== */
+header{position:fixed;top:0;left:0;right:0;z-index:50;padding:14px 0;transition:background .4s,padding .4s,box-shadow .4s}
+header.solid{background:rgba(18,10,8,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:8px 0;box-shadow:0 6px 30px rgba(0,0,0,.4)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:46px;height:46px;transition:transform .5s}
+.brand:hover img{transform:rotate(-20deg)}
+.brand span{font-family:'Lilita One';font-size:1.15rem;line-height:1;color:var(--amarelo)}
+.brand small{display:block;font-family:'Poppins';font-size:.62rem;letter-spacing:3px;color:#fff;opacity:.75;font-weight:600}
+nav ul{display:flex;gap:26px;list-style:none}
+nav a{font-weight:600;font-size:.9rem;position:relative;opacity:.9}
+nav a::after{content:"";position:absolute;left:0;bottom:-5px;height:3px;width:0;background:var(--amarelo);border-radius:3px;transition:width .3s}
+nav a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:999px;font-weight:700;font-size:.95rem;border:0;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s;white-space:nowrap}
+.btn:hover{transform:translateY(-3px)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-fogo{background:linear-gradient(135deg,var(--vermelho),var(--fogo));color:#fff;box-shadow:0 10px 30px rgba(214,46,31,.45)}
+.btn-fogo:hover{box-shadow:0 14px 40px rgba(255,106,26,.6)}
+.btn-amarelo{background:var(--amarelo);color:var(--brasa)}
+.btn-amarelo:hover{background:var(--amarelo2);box-shadow:0 12px 32px rgba(244,194,31,.45)}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+.btn-ghost:hover{background:rgba(255,255,255,.16)}
+.btn-zap{background:#25d366;color:#fff;box-shadow:0 10px 28px rgba(37,211,102,.35)}
+.menu-toggle{display:none;background:none;border:0;color:#fff;width:44px;height:44px;cursor:pointer}
+.menu-toggle span{display:block;width:26px;height:3px;background:var(--amarelo);margin:5px auto;border-radius:3px;transition:.3s}
+header.open .menu-toggle span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+header.open .menu-toggle span:nth-child(2){opacity:0}
+header.open .menu-toggle span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* ===== HERO SCROLL ===== */
+#hero{position:relative;height:560vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+.stage video,.layer{position:absolute;inset:0;width:100%;height:100%}
+.stage video{object-fit:cover;will-change:opacity,transform}
+.shade{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 30%,rgba(0,0,0,.65) 100%),linear-gradient(180deg,rgba(18,10,8,.55) 0%,rgba(18,10,8,0) 25%,rgba(18,10,8,0) 70%,rgba(18,10,8,.95) 100%);pointer-events:none}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
+.pizza-back{position:absolute;inset:-8%;background:url(pizza.gif) center/cover;filter:blur(26px) saturate(1.3) brightness(.55);opacity:0;will-change:opacity}
+.plate{position:absolute;left:50%;top:50%;width:min(86vmin,700px);aspect-ratio:1;transform:translate(-50%,-50%) scale(.4);border-radius:50%;overflow:hidden;opacity:0;will-change:transform,opacity,clip-path;
+  box-shadow:0 0 0 10px rgba(244,194,31,.9),0 0 0 22px rgba(142,23,18,.9),0 0 90px 30px rgba(255,106,26,.45)}
+.plate img{width:100%;height:100%;object-fit:cover;transform:scale(1.18);animation:slowspin 60s linear infinite}
+@keyframes slowspin{to{transform:scale(1.18) rotate(360deg)}}
+.rings{position:absolute;left:50%;top:50%;width:min(60vmin,480px);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
+.rings i{position:absolute;inset:0;border-radius:50%;border:3px solid var(--amarelo);opacity:0}
+.logo-hero{position:absolute;left:50%;top:50%;width:min(56vmin,440px);transform:translate(-50%,-50%) scale(.3) rotate(-40deg);opacity:0;will-change:transform,opacity;filter:drop-shadow(0 20px 60px rgba(0,0,0,.7)) drop-shadow(0 0 40px rgba(255,106,26,.5))}
+.hero-intro,.hero-final{position:absolute;left:0;right:0;text-align:center;padding:0 6vw;will-change:opacity,transform}
+.hero-intro{bottom:15vh}
+.kicker{display:inline-block;font-family:'Lilita One';color:var(--carvao);background:var(--amarelo);padding:6px 16px;border-radius:999px;font-size:clamp(.8rem,2.6vw,1rem);letter-spacing:1px;transform:rotate(-2deg);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.hero-intro h1{font-family:'Anton';font-size:clamp(2.7rem,9vw,7.2rem);line-height:.95;text-transform:uppercase;margin-top:18px;text-shadow:0 6px 40px rgba(0,0,0,.8)}
+.hero-intro h1 em{font-style:normal;color:var(--amarelo);display:block;background:linear-gradient(180deg,var(--amarelo2),var(--fogo));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 20px rgba(255,106,26,.5))}
+.hero-final{bottom:6vh;opacity:0}
+.hero-final::before{content:"";position:absolute;left:0;right:0;bottom:-6vh;height:150%;background:linear-gradient(180deg,transparent,rgba(18,10,8,.85) 45%);z-index:-1}
+.hero-final h2{font-family:'Anton';font-size:clamp(1.8rem,5.6vw,3.6rem);text-transform:uppercase;line-height:1;text-shadow:0 4px 30px rgba(0,0,0,.9)}
+.hero-final h2 span{color:var(--amarelo)}
+.hero-final p{margin:10px auto 20px;font-weight:600;opacity:.92;text-shadow:0 2px 12px #000}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.scroll-hint{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;opacity:.8;transition:opacity .4s}
+.scroll-hint b{width:26px;height:42px;border:2px solid #fff;border-radius:20px;position:relative}
+.scroll-hint b::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:9px;background:var(--amarelo);border-radius:4px;transform:translateX(-50%);animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:0;top:6px}30%{opacity:1}100%{opacity:0;top:22px}}
+.progress-fire{position:absolute;left:0;bottom:0;height:4px;width:0;background:linear-gradient(90deg,var(--vermelho),var(--fogo),var(--amarelo));box-shadow:0 0 18px var(--fogo)}
+
+/* ===== MARQUEE ===== */
+.marquee{background:var(--amarelo);color:var(--brasa);overflow:hidden;padding:16px 0;transform:rotate(-1.6deg) scale(1.04);margin:-20px 0 0;position:relative;z-index:3;box-shadow:0 10px 40px rgba(0,0,0,.5);border-top:5px solid var(--vermelho);border-bottom:5px solid var(--vermelho)}
+.marquee .track{display:flex;width:max-content;animation:marq 26s linear infinite}
+.marquee span{font-family:'Anton';font-size:clamp(1.4rem,3.5vw,2.2rem);text-transform:uppercase;padding:0 22px;display:flex;align-items:center;gap:22px;white-space:nowrap}
+.marquee span::after{content:"🔥";font-size:.8em}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ===== SECTIONS ===== */
+section{position:relative;padding:110px 0}
+.sec-head{text-align:center;max-width:760px;margin:0 auto 54px}
+.tag{font-family:'Lilita One';color:var(--amarelo);letter-spacing:2px;font-size:1rem;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
+.tag::before,.tag::after{content:"";width:28px;height:3px;background:var(--vermelho);border-radius:3px}
+.sec-head h2{font-family:'Anton';font-size:clamp(2.3rem,6vw,4.4rem);line-height:1;text-transform:uppercase;margin:12px 0 16px}
+.sec-head h2 span{color:var(--amarelo)}
+.sec-head p{opacity:.82;font-size:1.05rem}
+.reveal{opacity:0;transform:translateY(50px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* RODÍZIO */
+#rodizio{background:radial-gradient(ellipse at top,#2a120c 0%,var(--carvao) 65%)}
+.rod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.rod-card{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/4.3;background:#000;box-shadow:0 20px 50px rgba(0,0,0,.5);isolation:isolate;cursor:default}
+.rod-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1);z-index:-2}
+.rod-card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(18,10,8,.95) 100%);z-index:-1}
+.rod-card:hover img{transform:scale(1.1) rotate(1.5deg)}
+.rod-card .num{position:absolute;top:16px;left:16px;font-family:'Anton';font-size:1.1rem;background:var(--vermelho);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:3px solid var(--amarelo)}
+.rod-card .txt{position:absolute;left:0;right:0;bottom:0;padding:22px}
+.rod-card h3{font-family:'Anton';font-size:1.75rem;text-transform:uppercase;line-height:1.05;color:var(--amarelo)}
+.rod-card p{font-size:.9rem;opacity:.88;margin-top:6px}
+.rod-fritas{background:var(--amarelo)}
+.rod-fritas::before{background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(142,23,18,.95) 100%)}
+.rod-fritas .fry{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(5rem,13vw,9rem);z-index:-2;background:repeating-radial-gradient(circle at 50% 42%,var(--amarelo) 0 28px,#f7cd3c 28px 56px);transition:transform 1s}
+.rod-fritas:hover .fry{transform:scale(1.12) rotate(-6deg)}
+.rod-fritas h3{color:#fff}
+.rod-info{margin-top:44px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat{background:linear-gradient(160deg,rgba(214,46,31,.18),rgba(142,23,18,.08));border:1px solid rgba(244,194,31,.22);border-radius:18px;padding:22px;text-align:center}
+.stat strong{display:block;font-family:'Anton';font-size:2.3rem;color:var(--amarelo);line-height:1.1}
+.stat span{font-size:.88rem;opacity:.85}
+
+/* CARDÁPIO */
+#cardapio{background:var(--creme);color:var(--carvao)}
+#cardapio .sec-head h2 span{color:var(--vermelho)}
+#cardapio .tag{color:var(--brasa)}
+#cardapio .tag::before,#cardapio .tag::after{background:var(--amarelo)}
+#cardapio::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(142,23,18,.08) 2px,transparent 2px);background-size:26px 26px;pointer-events:none}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:38px;position:relative}
+.tab{font-family:'Lilita One';font-size:1rem;letter-spacing:.5px;padding:11px 20px;border-radius:999px;border:2px solid var(--brasa);background:transparent;color:var(--brasa);cursor:pointer;transition:.25s}
+.tab:hover{background:rgba(142,23,18,.08)}
+.tab.active{background:var(--vermelho);border-color:var(--vermelho);color:#fff;box-shadow:0 8px 22px rgba(214,46,31,.35);transform:translateY(-2px)}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;position:relative}
+.item{display:flex;gap:16px;align-items:center;background:#fff;border-radius:18px;padding:14px;box-shadow:0 8px 26px rgba(70,20,10,.1);border:1px solid rgba(142,23,18,.08);animation:pop .5s both;transition:transform .3s,box-shadow .3s}
+.item:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(70,20,10,.18)}
+@keyframes pop{from{opacity:0;transform:translateY(18px) scale(.97)}}
+.item .thumb{width:84px;height:84px;border-radius:14px;flex:none;overflow:hidden;background:linear-gradient(135deg,var(--amarelo),var(--fogo));display:grid;place-items:center;font-size:2.2rem}
+.item .thumb img{width:100%;height:100%;object-fit:cover}
+.item h4{font-family:'Lilita One';font-size:1.12rem;color:var(--brasa);line-height:1.2}
+.item p{font-size:.85rem;color:#5a4038;margin-top:3px;line-height:1.4}
+.item .badge{display:inline-block;margin-top:6px;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--verde);padding:3px 9px;border-radius:999px}
+.menu-note{text-align:center;margin-top:40px;position:relative}
+.menu-note p{font-size:.95rem;color:#5a4038;margin-bottom:16px}
+
+/* DELIVERY */
+#delivery{background:linear-gradient(180deg,var(--carvao) 0%,#230d08 100%);overflow:hidden}
+.deliv-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:50px;align-items:center}
+.deliv-visual{position:relative;aspect-ratio:1;max-width:520px;margin:0 auto;width:100%}
+.deliv-visual .pz{position:absolute;inset:8%;border-radius:50%;overflow:hidden;box-shadow:0 0 0 12px var(--amarelo),0 0 0 26px var(--vermelho),0 40px 90px rgba(0,0,0,.6)}
+.deliv-visual .pz img{width:100%;height:100%;object-fit:cover;transform:scale(1.15)}
+.deliv-visual .moto{position:absolute;right:-2%;bottom:6%;background:var(--amarelo);color:var(--brasa);font-family:'Anton';padding:14px 20px;border-radius:18px;font-size:1.2rem;text-transform:uppercase;transform:rotate(-6deg);box-shadow:0 14px 34px rgba(0,0,0,.5);line-height:1.1;animation:float 3.5s ease-in-out infinite}
+.deliv-visual .moto small{display:block;font-family:'Poppins';font-weight:700;font-size:.7rem;letter-spacing:2px}
+@keyframes float{50%{transform:rotate(-3deg) translateY(-12px)}}
+.deliv-cards{display:grid;gap:16px;margin-top:28px}
+.dcard{display:flex;align-items:center;gap:18px;padding:20px 22px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:.3s;position:relative;overflow:hidden}
+.dcard::before{content:"";position:absolute;inset:0;background:var(--c);opacity:0;transition:.3s;z-index:-1}
+.dcard{isolation:isolate}
+.dcard:hover{transform:translateX(8px);border-color:transparent}
+.dcard:hover::before{opacity:1}
+.dcard .ic{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:var(--c);flex:none;font-family:'Anton';font-size:1.05rem;color:#fff}
+.dcard .ic svg{width:30px;height:30px}
+.dcard h3{font-family:'Lilita One';font-size:1.3rem;letter-spacing:.3px}
+.dcard p{font-size:.86rem;opacity:.8}
+.dcard .arrow{margin-left:auto;font-size:1.5rem;transition:transform .3s}
+.dcard:hover .arrow{transform:translateX(6px)}
+.left-text h2{font-family:'Anton';font-size:clamp(2.3rem,5.5vw,4rem);line-height:1;text-transform:uppercase;margin:12px 0}
+.left-text h2 span{color:var(--amarelo)}
+
+/* RESERVAS */
+#reservas{background:var(--vermelho);background:linear-gradient(135deg,#a71c14 0%,var(--vermelho) 55%,#e8481e 100%);overflow:hidden}
+#reservas::before{content:"";position:absolute;width:900px;height:900px;border-radius:50%;right:-300px;top:-300px;border:60px solid rgba(244,194,31,.13);box-shadow:0 0 0 60px rgba(142,23,18,.25),0 0 0 120px rgba(244,194,31,.07)}
+.res-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:50px;align-items:center;position:relative}
+.res-text .tag{color:var(--amarelo)}
+.res-text .tag::before,.res-text .tag::after{background:var(--amarelo)}
+.res-text h2{font-family:'Anton';font-size:clamp(2.4rem,6vw,4.6rem);line-height:.98;text-transform:uppercase;margin:12px 0 18px}
+.res-text h2 span{color:var(--amarelo)}
+.res-list{list-style:none;margin:22px 0;display:grid;gap:12px}
+.res-list li{display:flex;gap:12px;align-items:flex-start;font-weight:500}
+.res-list li b{background:var(--amarelo);color:var(--brasa);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:.95rem}
+form.res-form{background:var(--creme);color:var(--carvao);border-radius:26px;padding:32px;box-shadow:0 30px 70px rgba(60,0,0,.45);position:relative}
+form.res-form::before{content:"";position:absolute;top:-34px;right:26px;width:88px;height:88px;background:url(logo.png) center/contain no-repeat;transform:rotate(12deg);filter:drop-shadow(0 8px 16px rgba(0,0,0,.35))}
+.res-form h3{font-family:'Anton';font-size:1.9rem;text-transform:uppercase;color:var(--brasa);line-height:1.1}
+.res-form .sub{font-size:.88rem;color:#6b4c43;margin-bottom:20px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--brasa)}
+.field input,.field select,.field textarea{font:inherit;font-size:.95rem;padding:12px 14px;border-radius:12px;border:2px solid #ecd9b8;background:#fff;color:var(--carvao);outline:none;transition:border .2s;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--vermelho)}
+.field textarea{resize:vertical;min-height:70px}
+.res-form .btn{width:100%;justify-content:center;margin-top:18px;font-size:1.05rem;padding:16px}
+.res-form .fine{font-size:.76rem;color:#8a6b60;text-align:center;margin-top:10px}
+
+/* TOUR */
+#tour{background:var(--carvao)}
+.tour-box{position:relative;border-radius:28px;overflow:hidden;height:min(72vh,640px);box-shadow:0 0 0 6px var(--amarelo),0 0 0 14px var(--brasa),0 40px 90px rgba(0,0,0,.6)}
+#pano{width:100%;height:100%}
+.tour-badges{position:absolute;top:18px;left:18px;z-index:5;display:flex;gap:8px;flex-wrap:wrap;pointer-events:none}
+.tour-badges span{background:rgba(18,10,8,.75);backdrop-filter:blur(8px);padding:8px 14px;border-radius:999px;font-size:.8rem;font-weight:600;border:1px solid rgba(255,255,255,.15)}
+.tour-badges span:first-child{background:var(--vermelho);border-color:var(--vermelho)}
+.tour-scenes{display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.scene{display:flex;align-items:center;gap:12px;padding:10px 18px 10px 10px;border-radius:16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);font-weight:600;font-size:.9rem}
+.scene i{width:46px;height:46px;border-radius:12px;background:url(tour-fachada.jpg) 30% 45%/700% no-repeat;flex:none}
+.scene.on{border-color:var(--amarelo);background:rgba(244,194,31,.1)}
+.scene.soon{opacity:.55}
+.scene.soon i{background:repeating-linear-gradient(45deg,#2a1510,#2a1510 6px,#3a1c14 6px,#3a1c14 12px);display:grid;place-items:center;font-style:normal}
+.pnlm-load-box{background:rgba(18,10,8,.85)!important}
+
+/* GALERIA */
+#galeria{background:radial-gradient(ellipse at bottom,#2a120c 0%,var(--carvao) 70%);padding-bottom:90px}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:12px}
+.gal a{border-radius:16px;overflow:hidden;position:relative}
+.gal a img{width:100%;height:100%;object-fit:cover;transition:transform .8s,filter .5s}
+.gal a::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(214,46,31,.0),rgba(214,46,31,.0));transition:.4s}
+.gal a:hover img{transform:scale(1.08);filter:saturate(1.2)}
+.gal a:hover::after{background:linear-gradient(135deg,rgba(214,46,31,.35),rgba(244,194,31,.2))}
+.gal a:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gal-cta{text-align:center;margin-top:36px}
+
+/* LOCAL */
+#local{background:var(--creme);color:var(--carvao)}
+.loc-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:34px;align-items:stretch}
+.loc-card{background:var(--carvao);color:var(--creme);border-radius:26px;padding:34px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden}
+.loc-card::after{content:"";position:absolute;right:-90px;bottom:-90px;width:260px;height:260px;background:url(logo.png) center/contain no-repeat;opacity:.1;transform:rotate(-15deg)}
+.loc-card h2{font-family:'Anton';font-size:2.4rem;text-transform:uppercase;line-height:1}
+.loc-card h2 span{color:var(--amarelo)}
+.info{display:flex;gap:14px;align-items:flex-start}
+.info .ic{width:44px;height:44px;border-radius:12px;background:var(--vermelho);display:grid;place-items:center;flex:none}
+.info .ic svg{width:22px;height:22px;fill:#fff}
+.info b{display:block;font-family:'Lilita One';color:var(--amarelo);font-weight:400;font-size:1.05rem}
+.info span{font-size:.92rem;opacity:.88}
+.map{border-radius:26px;overflow:hidden;min-height:420px;box-shadow:0 20px 50px rgba(70,20,10,.2);border:6px solid #fff}
+.map iframe{width:100%;height:100%;min-height:420px;border:0;display:block}
+.socials{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+.soc{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);transition:.3s}
+.soc svg{width:22px;height:22px;fill:#fff}
+.soc:hover{background:var(--amarelo);transform:translateY(-4px) rotate(-6deg)}
+.soc:hover svg{fill:var(--brasa)}
+
+/* FOOTER */
+footer{background:#0b0605;padding:60px 0 100px;text-align:center;border-top:4px solid var(--vermelho)}
+footer img{width:110px;margin:0 auto 16px}
+footer .slogan{font-family:'Lilita One';color:var(--amarelo);font-size:1.3rem}
+footer .socials{justify-content:center;margin:22px 0}
+footer .copy{font-size:.8rem;opacity:.55;margin-top:10px}
+footer .credit{margin-top:18px;font-size:.8rem;opacity:.75}
+footer .credit a{color:var(--amarelo);font-weight:700}
+
+/* FLOAT ZAP */
+.zap{position:fixed;right:20px;bottom:20px;z-index:60;width:62px;height:62px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:transform .3s}
+.zap::before{content:"";position:absolute;inset:0;border-radius:50%;background:#25d366;animation:pulse 2s infinite;z-index:-1}
+.zap svg{width:34px;height:34px;fill:#fff}
+.zap:hover{transform:scale(1.1) rotate(-8deg)}
+.zap .tip{position:absolute;right:74px;background:#fff;color:var(--carvao);font-weight:700;font-size:.82rem;padding:8px 14px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transform:translateX(10px);transition:.3s;pointer-events:none}
+.zap:hover .tip{opacity:1;transform:none}
+@keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}
+
+/* RESPONSIVO */
+@media (max-width:980px){
+  nav{position:fixed;inset:0;background:rgba(18,10,8,.97);display:grid;place-items:center;opacity:0;visibility:hidden;transition:.35s}
+  header.open nav{opacity:1;visibility:visible}
+  nav ul{flex-direction:column;text-align:center;gap:28px}
+  nav a{font-family:'Anton';font-size:2rem;text-transform:uppercase}
+  .menu-toggle{display:block;position:relative;z-index:2}
+  header .btn-head{display:none}
+  .rod-grid{grid-template-columns:repeat(2,1fr)}
+  .rod-info{grid-template-columns:repeat(2,1fr)}
+  .deliv-grid,.res-grid,.loc-grid{grid-template-columns:1fr}
+  .deliv-visual{max-width:380px}
+  .gal{grid-template-columns:repeat(3,1fr);grid-auto-rows:150px}
+}
+@media (max-width:560px){
+  section{padding:80px 0}
+  .rod-grid{gap:12px}
+  .rod-card h3{font-size:1.3rem}
+  .rod-card p{font-size:.78rem}
+  .rod-card .txt{padding:14px}
+  .fgrid{grid-template-columns:1fr}
+  form.res-form{padding:26px 20px}
+  .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:140px}
+  .menu-grid{grid-template-columns:1fr}
+  .tab{font-size:.88rem;padding:9px 14px}
+  .tour-box{height:62vh}
+  .btn{padding:12px 20px;font-size:.9rem}
+  .brand span{font-size:1rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="loader"><div><img src="logo.png" alt="Brasa & Lenha"><p>ACENDENDO O FORNO…</p></div></div>
+
+<!-- HEADER -->
+<header id="top">
+  <div class="wrap">
+    <a href="#hero" class="brand"><img src="logo.png" alt="Logo Brasa & Lenha"><span>Brasa &amp; Lenha<small>PIZZARIA</small></span></a>
+    <nav><ul>
+      <li><a href="#rodizio">Rodízio</a></li>
+      <li><a href="#cardapio">Cardápio</a></li>
+      <li><a href="#delivery">Delivery</a></li>
+      <li><a href="#reservas">Reservas</a></li>
+      <li><a href="#tour">Tour 360°</a></li>
+      <li><a href="#local">Onde estamos</a></li>
+    </ul></nav>
+    <a href="#reservas" class="btn btn-amarelo btn-head">Reservar mesa</a>
+    <button class="menu-toggle" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO: vídeo da brasa no scroll + logo + pizza -->
+<section id="hero" style="padding:0">
+  <div class="stage">
+    <video id="vid" src="brasa.mp4" poster="brasa-poster.jpg" muted playsinline preload="auto"></video>
+    <div class="pizza-back" id="pizzaBack"></div>
+    <div class="plate" id="plate"><img src="pizza.gif" alt="Pizza saindo do forno"></div>
+    <canvas id="embers"></canvas>
+    <div class="shade"></div>
+    <div class="rings" id="rings"><i></i><i></i><i></i></div>
+    <img src="logo.png" alt="Brasa & Lenha Pizzaria" class="logo-hero" id="logoHero">
+
+    <div class="hero-intro" id="heroIntro">
+      <span class="kicker">🔥 Apucarana · Av. Curitiba, 1716</span>
+      <h1>Fogo de verdade.<em>Sabor à vontade.</em></h1>
+    </div>
+
+    <div class="hero-final" id="heroFinal">
+      <h2>Rodízio de <span>pizzas</span>, <span>carnes</span>, <span>fritas</span> e <span>sorvetes</span></h2>
+      <p>Segunda a sábado · 19h às 23h</p>
+      <div class="cta-row">
+        <a href="#reservas" class="btn btn-fogo">🔥 Reservar mesa</a>
+        <a href="#delivery" class="btn btn-ghost">🛵 Pedir delivery</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" id="hint"><b></b>role para acender</div>
+    <div class="progress-fire" id="prog"></div>
+  </div>
+</section>
+
+<div class="marquee"><div class="track" id="marq">
+  <span>Rodízio de pizzas</span><span>Carnes na brasa</span><span>Fritas à vontade</span><span>Sorvetes</span><span>Pizzas doces</span><span>Drinks</span><span>Espaço kids</span>
+</div></div>
+
+<!-- RODÍZIO -->
+<section id="rodizio">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">O rodízio mais completo</span>
+      <h2>Saborear, rir mais e <span>repetir à vontade</span></h2>
+      <p>Um rodízio só, quatro jeitos de ser feliz: pizzas quentinhas, carnes direto da brasa, fritas crocantes e sorvete pra fechar com chave de ouro.</p>
+    </div>
+    <div class="rod-grid">
+      <article class="rod-card reveal"><img src="pizza-fatia.jpg" alt="Pizza servida na mesa" loading="lazy"><span class="num">01</span><div class="txt"><h3>Pizzas salgadas e doces</h3><p>Massa fininha, borda dourada e sabores que não param de passar.</p></div></article>
+      <article class="rod-card reveal d1"><img src="espeto-completo.jpg" alt="Espetos de carne na brasa" loading="lazy"><span class="num">02</span><div class="txt"><h3>Carnes na brasa</h3><p>Espetos suculentos passando na mesa, no ponto certo.</p></div></article>
+      <article class="rod-card rod-fritas reveal d2"><div class="fry">🍟</div><span class="num">03</span><div class="txt"><h3>Fritas</h3><p>Crocantes, sequinhas e à vontade pra acompanhar tudo.</p></div></article>
+      <article class="rod-card reveal d3"><img src="sorvete-colorido.jpg" alt="Sorvete com calda" loading="lazy"><span class="num">04</span><div class="txt"><h3>Sorvetes</h3><p>Com caldas e cores pra adoçar o final da noite.</p></div></article>
+    </div>
+    <div class="rod-info">
+      <div class="stat reveal"><strong data-count="17">0</strong><span>mil seguidores no Instagram</span></div>
+      <div class="stat reveal d1"><strong>4 em 1</strong><span>pizza, carne, fritas e sorvete no mesmo rodízio</span></div>
+      <div class="stat reveal d2"><strong>19h–23h</strong><span>de segunda a sábado</span></div>
+      <div class="stat reveal d3"><strong>Kids</strong><span>espaço pensado para a criançada</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDÁPIO -->
+<section id="cardapio">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Cardápio</span>
+      <h2>O que passa <span>na sua mesa</span></h2>
+      <p>Uma prévia do que te espera no rodízio. Sabores e itens podem variar a cada noite.</p>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="menu-grid" id="menuGrid"></div>
+    <div class="menu-note">
+      <p>Quer em casa? O cardápio completo de delivery, com preços atualizados, está no Anota Aí e no iFood.</p>
+      <div class="cta-row">
+        <a class="btn btn-fogo" href="https://pedido.anota.ai/loja/brasa-e-lenha-pizzaria-1" target="_blank" rel="noopener">Ver cardápio no Anota Aí</a>
+        <a class="btn btn-amarelo" href="https://www.ifood.com.br/delivery/apucarana-pr/brasa-e-lenha-restaurante-centro/734318ee-6427-432f-a3f5-a979cf49c16c" target="_blank" rel="noopener">Pedir no iFood</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section id="delivery">
+  <div class="wrap deliv-grid">
+    <div class="deliv-visual reveal">
+      <div class="pz"><img src="pizza.gif" alt="Pizza quentinha" loading="lazy"></div>
+      <div class="moto"><small>DO FORNO</small>Pra sua casa 🛵</div>
+    </div>
+    <div class="left-text reveal d1">
+      <span class="tag">Delivery</span>
+      <h2>A brasa chega <span>quentinha</span> aí</h2>
+      <p style="opacity:.85">Escolha o canal que você preferir e peça agora mesmo.</p>
+      <div class="deliv-cards">
+        <a class="dcard" style="--c:#d62e1f" href="https://pedido.anota.ai/loja/brasa-e-lenha-pizzaria-1" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span>
+          <div><h3>Anota Aí</h3><p>Pedido direto com a pizzaria, rápido e fácil</p></div><span class="arrow">→</span></a>
+        <a class="dcard" style="--c:#ea1d2c" href="https://www.ifood.com.br/delivery/apucarana-pr/brasa-e-lenha-restaurante-centro/734318ee-6427-432f-a3f5-a979cf49c16c" target="_blank" rel="noopener">
+          <span class="ic">iFood</span>
+          <div><h3>iFood</h3><p>Brasa e Lenha Restaurante · salve nos Favoritos ❤️</p></div><span class="arrow">→</span></a>
+        <a class="dcard" style="--c:#25d366" href="https://wa.me/554330341124?text=Ol%C3%A1%2C%20Brasa%20%26%20Lenha!%20Quero%20fazer%20um%20pedido." target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7a10.7 10.7 0 0 1-5.5-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg></span>
+          <div><h3>WhatsApp</h3><p>(43) 3034-1124 · fale direto com a gente</p></div><span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVAS -->
+<section id="reservas">
+  <div class="wrap res-grid">
+    <div class="res-text reveal">
+      <span class="tag">Reservas</span>
+      <h2>Sua mesa <span>já está</span> no fogo</h2>
+      <p>Aniversário, encontro da família, happy hour da firma ou aquela noite de quinta sem motivo nenhum. Garanta seu lugar em segundos pelo WhatsApp.</p>
+      <ul class="res-list">
+        <li><b>1</b>Preencha os dados ao lado</li>
+        <li><b>2</b>A mensagem pronta abre no WhatsApp</li>
+        <li><b>3</b>É só enviar e aguardar a confirmação</li>
+      </ul>
+    </div>
+    <form class="res-form reveal d1" id="resForm" novalidate>
+      <h3>Reservar mesa</h3>
+      <p class="sub">Atendimento de segunda a sábado, das 19h às 23h.</p>
+      <div class="fgrid">
+        <div class="field full"><label for="rNome">Seu nome</label><input id="rNome" required placeholder="Como podemos te chamar?"></div>
+        <div class="field"><label for="rData">Data</label><input id="rData" type="date" required></div>
+        <div class="field"><label for="rHora">Horário</label>
+          <select id="rHora"><option>19:00</option><option>19:30</option><option selected>20:00</option><option>20:30</option><option>21:00</option><option>21:30</option><option>22:00</option></select></div>
+        <div class="field"><label for="rPessoas">Pessoas</label><input id="rPessoas" type="number" min="1" max="120" value="4"></div>
+        <div class="field"><label for="rOcasiao">Ocasião</label>
+          <select id="rOcasiao"><option>Só curtir o rodízio</option><option>Aniversário 🎂</option><option>Família</option><option>Encontro / casal</option><option>Confraternização</option><option>Outro</option></select></div>
+        <div class="field full"><label for="rObs">Observações</label><textarea id="rObs" placeholder="Ex.: cadeirinha para criança, perto do espaço kids…"></textarea></div>
+      </div>
+      <button class="btn btn-zap" type="submit"><svg viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm5.9 15.7c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg>Enviar reserva pelo WhatsApp</button>
+      <p class="fine">A reserva é confirmada pela equipe da Brasa &amp; Lenha.</p>
+    </form>
+  </div>
+</section>
+
+<!-- TOUR 360 -->
+<section id="tour">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Tour virtual 360°</span>
+      <h2>Chegue antes <span>de chegar</span></h2>
+      <p>Arraste para olhar em volta e conheça a nossa fachada na Av. Curitiba. Fica fácil de achar!</p>
+    </div>
+    <div class="tour-box reveal">
+      <div class="tour-badges"><span>360°</span><span>👆 Arraste para explorar</span></div>
+      <div id="pano"></div>
+    </div>
+    <div class="tour-scenes">
+      <div class="scene on"><i></i>Fachada</div>
+      <div class="scene soon"><i>🔒</i>Salão · em breve</div>
+      <div class="scene soon"><i>🔒</i>Espaço kids · em breve</div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">@brasaelenhapizzaria</span>
+      <h2>Dá água <span>na boca</span></h2>
+    </div>
+    <div class="gal reveal">
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="pizza-calabresa-bacon.jpg" alt="Pizza de calabresa com bacon" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="batida-vinho.jpg" alt="Batida de morango com vinho" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="pizza-doce.jpg" alt="Pizza doce com sorvete" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="espetos.jpg" alt="Espetos na brasa" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="caipirinha.jpg" alt="Caipirinha de limão" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="sorvete-creme.jpg" alt="Sorvete" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="salao.jpg" alt="Salão do rodízio" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="batida-morango.jpg" alt="Drink de morango" loading="lazy"></a>
+      <a href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener"><img src="pizza-doce-sorvete.jpg" alt="Sobremesa" loading="lazy"></a>
+    </div>
+    <div class="gal-cta"><a class="btn btn-fogo" href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener">Seguir no Instagram</a></div>
+  </div>
+</section>
+
+<!-- LOCALIZAÇÃO -->
+<section id="local">
+  <div class="wrap loc-grid">
+    <div class="loc-card reveal">
+      <h2>Bora pro <span>rodízio?</span></h2>
+      <div class="info"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span><div><b>Endereço</b><span>Av. Curitiba, 1716 · Centro<br>Apucarana · PR</span></div></div>
+      <div class="info"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7z"/></svg></span><div><b>Horário</b><span>Segunda a sábado · 19h às 23h</span></div></div>
+      <div class="info"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.3 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .6 3.6 1 1 0 0 1-.3 1z"/></svg></span><div><b>Telefone / WhatsApp</b><span><a href="tel:+554330341124">(43) 3034-1124</a></span></div></div>
+      <div class="cta-row" style="justify-content:flex-start;position:relative;z-index:1">
+        <a class="btn btn-amarelo" href="https://maps.app.goo.gl/C18A9StQntgXpkDp7" target="_blank" rel="noopener">📍 Como chegar</a>
+      </div>
+      <div class="socials">
+        <a class="soc" href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8.2A3.2 3.2 0 1 1 15.2 12 3.2 3.2 0 0 1 12 15.2zM17.3 5.5a1.2 1.2 0 1 0 1.2 1.2 1.2 1.2 0 0 0-1.2-1.2zM21.9 7.1a5.8 5.8 0 0 0-1.6-4.1A5.8 5.8 0 0 0 16.2 1.4C14.6 1.3 9.4 1.3 7.8 1.4a5.8 5.8 0 0 0-4.1 1.6A5.8 5.8 0 0 0 2.1 7.1C2 8.7 2 13.9 2.1 15.5a5.8 5.8 0 0 0 1.6 4.1 5.8 5.8 0 0 0 4.1 1.6c1.6.1 6.8.1 8.4 0a5.8 5.8 0 0 0 4.1-1.6 5.8 5.8 0 0 0 1.6-4.1c.1-1.6.1-6.8 0-8.4zm-2.1 10.2a3.3 3.3 0 0 1-1.9 1.9c-1.3.5-4.4.4-5.9.4s-4.6.1-5.9-.4a3.3 3.3 0 0 1-1.9-1.9c-.5-1.3-.4-4.4-.4-5.9s-.1-4.6.4-5.9a3.3 3.3 0 0 1 1.9-1.9c1.3-.5 4.4-.4 5.9-.4s4.6-.1 5.9.4a3.3 3.3 0 0 1 1.9 1.9c.5 1.3.4 4.4.4 5.9s.1 4.6-.4 5.9z"/></svg></a>
+        <a class="soc" href="https://www.tiktok.com/@brasaelenhapizzaria" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-1.8-2.5V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg></a>
+        <a class="soc" href="https://maps.app.goo.gl/C18A9StQntgXpkDp7" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 24 24"><path d="M21.4 10.2H12v3.9h5.4a4.7 4.7 0 0 1-2 3 6 6 0 0 1-3.4 1 6 6 0 0 1-5.6-4.1 6 6 0 0 1 0-3.9A6 6 0 0 1 12 6a5.5 5.5 0 0 1 3.9 1.5l2.9-2.9A9.7 9.7 0 0 0 12 2a10 10 0 0 0-8.9 5.5 10 10 0 0 0 0 9A10 10 0 0 0 12 22a9.5 9.5 0 0 0 6.6-2.4 9.8 9.8 0 0 0 3-7.4 11.6 11.6 0 0 0-.2-2z"/></svg></a>
+        <a class="soc" href="https://wa.me/554330341124" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm5.9 15.7c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg></a>
+      </div>
+    </div>
+    <div class="map reveal d1">
+      <iframe title="Mapa Brasa & Lenha Pizzaria" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Brasa%20e%20Lenha%20Pizzaria%2C%20Av.%20Curitiba%2C%201716%2C%20Centro%2C%20Apucarana%20-%20PR&z=17&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img src="logo.png" alt="Brasa & Lenha Pizzaria">
+  <div class="slogan">Saborear, rir mais e repetir à vontade.</div>
+  <div class="socials">
+    <a class="soc" href="https://www.instagram.com/brasaelenhapizzaria" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8.2A3.2 3.2 0 1 1 15.2 12 3.2 3.2 0 0 1 12 15.2zM17.3 5.5a1.2 1.2 0 1 0 1.2 1.2 1.2 1.2 0 0 0-1.2-1.2zM21.9 7.1a5.8 5.8 0 0 0-1.6-4.1A5.8 5.8 0 0 0 16.2 1.4C14.6 1.3 9.4 1.3 7.8 1.4a5.8 5.8 0 0 0-4.1 1.6A5.8 5.8 0 0 0 2.1 7.1C2 8.7 2 13.9 2.1 15.5a5.8 5.8 0 0 0 1.6 4.1 5.8 5.8 0 0 0 4.1 1.6c1.6.1 6.8.1 8.4 0a5.8 5.8 0 0 0 4.1-1.6 5.8 5.8 0 0 0 1.6-4.1c.1-1.6.1-6.8 0-8.4zm-2.1 10.2a3.3 3.3 0 0 1-1.9 1.9c-1.3.5-4.4.4-5.9.4s-4.6.1-5.9-.4a3.3 3.3 0 0 1-1.9-1.9c-.5-1.3-.4-4.4-.4-5.9s-.1-4.6.4-5.9a3.3 3.3 0 0 1 1.9-1.9c1.3-.5 4.4-.4 5.9-.4s4.6-.1 5.9.4a3.3 3.3 0 0 1 1.9 1.9c.5 1.3.4 4.4.4 5.9s.1 4.6-.4 5.9z"/></svg></a>
+    <a class="soc" href="https://www.tiktok.com/@brasaelenhapizzaria" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-1.8-2.5V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg></a>
+    <a class="soc" href="https://maps.app.goo.gl/C18A9StQntgXpkDp7" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 24 24"><path d="M21.4 10.2H12v3.9h5.4a4.7 4.7 0 0 1-2 3 6 6 0 0 1-3.4 1 6 6 0 0 1-5.6-4.1 6 6 0 0 1 0-3.9A6 6 0 0 1 12 6a5.5 5.5 0 0 1 3.9 1.5l2.9-2.9A9.7 9.7 0 0 0 12 2a10 10 0 0 0-8.9 5.5 10 10 0 0 0 0 9A10 10 0 0 0 12 22a9.5 9.5 0 0 0 6.6-2.4 9.8 9.8 0 0 0 3-7.4 11.6 11.6 0 0 0-.2-2z"/></svg></a>
+  </div>
+  <div>Av. Curitiba, 1716 · Centro · Apucarana-PR · (43) 3034-1124</div>
+  <div class="copy">© <span id="ano"></span> Brasa &amp; Lenha Pizzaria. Todos os direitos reservados.</div>
+  <div class="credit">Site e tour virtual 360° por <a href="https://infinity-360.github.io/360view" target="_blank" rel="noopener">Infinity View 360</a></div>
+</footer>
+
+<a class="zap" href="https://wa.me/554330341124?text=Ol%C3%A1%2C%20Brasa%20%26%20Lenha!" target="_blank" rel="noopener" aria-label="WhatsApp"><span class="tip">Reservas e pedidos</span><svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7a10.7 10.7 0 0 1-5.5-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.2-.3-.3-.6-.4z"/></svg></a>
+
+<script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+<script>
+/* ========= CONFIG ========= */
+const WHATS = '554330341124';
+
+/* ========= CARDÁPIO (edite aqui) ========= */
+const MENU = {
+  'Pizzas salgadas': [
+    {n:'Calabresa com bacon', d:'Calabresa, bacon crocante, mussarela e orégano.', img:'pizza-calabresa-bacon.jpg', tag:'Mais pedida'},
+    {n:'Frango com batata palha', d:'Frango temperado, muito queijo e batata palha por cima.', img:'pizza-palha.jpg'},
+    {n:'Bacon', d:'Mussarela gratinada com cubos de bacon dourado.', img:'pizza-fatia.jpg'},
+    {n:'Milho com presunto', d:'Milho verde, presunto e mussarela derretida.', e:'🌽'},
+    {n:'Mussarela', d:'A clássica: molho de tomate, mussarela e orégano.', e:'🧀'},
+    {n:'Calabresa', d:'Calabresa fatiada, cebola e mussarela.', e:'🍕'},
+    {n:'Portuguesa', d:'Presunto, ovos, cebola, ervilha e mussarela.', e:'🍕'},
+    {n:'Frango com catupiry', d:'Frango desfiado e catupiry cremoso.', e:'🍗'},
+  ],
+  'Pizzas doces': [
+    {n:'Chocolate com sorvete', d:'Pizza de chocolate servida com bolas de sorvete e calda.', img:'pizza-doce.jpg', tag:'Imperdível'},
+    {n:'Chocolate com morango', d:'Chocolate ao leite com morangos frescos.', img:'pizza-doce-sorvete.jpg'},
+    {n:'Brigadeiro', d:'Chocolate e granulado, do jeito que a criançada ama.', e:'🍫'},
+    {n:'Banana com canela', d:'Banana, açúcar e canela gratinados.', e:'🍌'},
+  ],
+  'Na brasa': [
+    {n:'Espetos de carne', d:'Cortes suculentos assados na brasa e servidos na mesa.', img:'espeto-completo.jpg', tag:'Rodízio completo'},
+    {n:'Linguiça na brasa', d:'Linguiça douradinha direto do espeto.', img:'espetos.jpg'},
+    {n:'Frango na brasa', d:'Pedaços temperados e assados no ponto.', e:'🔥'},
+  ],
+  'Fritas': [
+    {n:'Batata frita', d:'Sequinha e crocante, passando à vontade.', e:'🍟'},
+    {n:'Fritas variadas', d:'Petiscos fritos que acompanham o rodízio.', e:'🍟'},
+  ],
+  'Sorvetes': [
+    {n:'Sorvete com calda', d:'Sabores coloridos com calda de morango.', img:'sorvete-colorido.jpg', tag:'No rodízio'},
+    {n:'Sorvete de creme', d:'Cremoso, pra fechar a noite.', img:'sorvete-creme.jpg'},
+  ],
+  'Drinks': [
+    {n:'Batida de morango com vinho', d:'Morango batido com vinho, servida na taça.', img:'batida-vinho.jpg', tag:'Favorita'},
+    {n:'Batida de morango', d:'Refrescante e geladinha.', img:'batida-morango.jpg'},
+    {n:'Caipirinha de limão', d:'Limão, gelo e aquele toque clássico.', img:'caipirinha.jpg'},
+  ]
+};
+const tabsEl=document.getElementById('tabs'), gridEl=document.getElementById('menuGrid');
+function renderMenu(cat){
+  gridEl.innerHTML = MENU[cat].map((it,i)=>`
+    <div class="item" style="animation-delay:${i*60}ms">
+      <div class="thumb">${it.img?`<img src="${it.img}" alt="${it.n}" loading="lazy">`:(it.e||'🍕')}</div>
+      <div><h4>${it.n}</h4><p>${it.d}</p>${it.tag?`<span class="badge">${it.tag}</span>`:''}</div>
+    </div>`).join('');
+  [...tabsEl.children].forEach(b=>b.classList.toggle('active',b.dataset.c===cat));
+}
+Object.keys(MENU).forEach(c=>{const b=document.createElement('button');b.className='tab';b.textContent=c;b.dataset.c=c;b.onclick=()=>renderMenu(c);tabsEl.appendChild(b)});
+renderMenu('Pizzas salgadas');
+
+/* ========= LOADER ========= */
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('out'),500));
+setTimeout(()=>document.getElementById('loader').classList.add('out'),4000);
+
+/* ========= HEADER ========= */
+const header=document.getElementById('top');
+document.querySelector('.menu-toggle').onclick=()=>header.classList.toggle('open');
+document.querySelectorAll('nav a').forEach(a=>a.onclick=()=>header.classList.remove('open'));
+document.getElementById('ano').textContent=new Date().getFullYear();
+
+/* ========= MARQUEE (duplica conteúdo) ========= */
+const mq=document.getElementById('marq'); mq.innerHTML+=mq.innerHTML;
+
+/* ========= HERO SCROLL ========= */
+const hero=document.getElementById('hero'), vid=document.getElementById('vid');
+const logo=document.getElementById('logoHero'), plate=document.getElementById('plate'), back=document.getElementById('pizzaBack');
+const intro=document.getElementById('heroIntro'), fin=document.getElementById('heroFinal'), hint=document.getElementById('hint'), prog=document.getElementById('prog');
+const rings=[...document.querySelectorAll('#rings i')];
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const seg=(p,a,b)=>ease(clamp((p-a)/(b-a)));
+let targetT=0, curT=0, dur=9.8, p=0;
+vid.addEventListener('loadedmetadata',()=>{dur=vid.duration||dur});
+// desbloqueio iOS
+const unlock=()=>{vid.play().then(()=>vid.pause()).catch(()=>{});window.removeEventListener('touchstart',unlock)};
+window.addEventListener('touchstart',unlock,{passive:true});
+
+function heroProgress(){
+  const r=hero.getBoundingClientRect(); const total=hero.offsetHeight-innerHeight;
+  return clamp(-r.top/total);
+}
+function frame(){
+  p=heroProgress();
+  // vídeo da brasa acompanha o scroll
+  targetT=clamp(p/0.66)*(dur-0.05);
+  curT+= (targetT-curT)*0.14;
+  if(vid.readyState>=2 && Math.abs(vid.currentTime-curT)>0.02){ try{vid.currentTime=curT}catch(e){} }
+
+  // intro
+  const io=1-seg(p,.06,.2);
+  intro.style.opacity=io; intro.style.transform=`translateY(${(1-io)*-60}px)`;
+  hint.style.opacity=p>.03?0:.8;
+
+  // logo surge na brasa
+  const L=seg(p,.2,.4);
+  const pz=seg(p,.46,.7);           // entrada da pizza
+  const f=seg(p,.72,.86);           // fase final (texto)
+  const up=-f*(innerHeight*.13);
+  const sc=(.3+.7*L)*(1-.38*pz)*(1-.12*f);
+  logo.style.opacity=L;
+  logo.style.transform=`translate(-50%,calc(-50% + ${up}px)) scale(${sc}) rotate(${-40*(1-L)+ pz*8}deg)`;
+  // anéis de fogo
+  rings.forEach((r,i)=>{const k=clamp((L*1.3)-i*.15);r.style.opacity=(k>0&&k<1)?(1-k)*.8:0;r.style.transform=`scale(${.6+k*1.2})`});
+
+  // mescla: vídeo -> pizza
+  vid.style.opacity=1-pz*.85;
+  vid.style.transform=`scale(${1+pz*.15})`;
+  back.style.opacity=pz*.9;
+  plate.style.opacity=clamp(pz*1.6);
+  plate.style.transform=`translate(-50%,calc(-50% + ${up}px)) scale(${(.4+.6*pz)*(1-.22*f)}) rotate(${(1-pz)*-90}deg)`;
+  plate.style.clipPath=`circle(${pz*52}% at 50% 50%)`;
+
+  // final
+  fin.style.opacity=f; fin.style.transform=`translateY(${(1-f)*40}px)`;
+  fin.style.pointerEvents=f>.5?'auto':'none';
+  prog.style.width=(p*100)+'%';
+
+  header.classList.toggle('solid',scrollY>hero.offsetHeight-innerHeight*1.2);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ========= BRASAS (partículas) ========= */
+const cv=document.getElementById('embers'), cx=cv.getContext('2d');
+let W,H,parts=[];
+function size(){W=cv.width=innerWidth*devicePixelRatio;H=cv.height=innerHeight*devicePixelRatio}
+size(); addEventListener('resize',size);
+function spawn(){return{x:Math.random()*W,y:H+20,vx:(Math.random()-.5)*.6,vy:-(1+Math.random()*2.6)*devicePixelRatio,r:(.6+Math.random()*2.2)*devicePixelRatio,life:0,max:140+Math.random()*160,h:15+Math.random()*30}}
+const N=innerWidth<600?45:90;
+for(let i=0;i<N;i++){const s=spawn();s.y=Math.random()*H;parts.push(s)}
+(function draw(){
+  cx.clearRect(0,0,W,H);
+  const inten=.45+Math.sin(p*Math.PI)*.8;
+  for(const s of parts){
+    s.life++; s.x+=s.vx+Math.sin((s.life+s.h)*.04)*.5; s.y+=s.vy*inten;
+    const a=Math.max(0,1-s.life/s.max);
+    cx.beginPath(); cx.arc(s.x,s.y,s.r,0,6.28);
+    cx.fillStyle=`hsla(${s.h},100%,${55+a*15}%,${a})`; cx.shadowBlur=12*devicePixelRatio; cx.shadowColor=`hsla(${s.h},100%,55%,${a})`;
+    cx.fill();
+    if(s.life>s.max||s.y<-20) Object.assign(s,spawn());
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ========= REVEAL + CONTADOR ========= */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
+  e.target.querySelectorAll('[data-count]').forEach(el=>{const t=+el.dataset.count;let n=0;const st=setInterval(()=>{n++;el.textContent=n+' mil';if(n>=t){clearInterval(st)}},55)})}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ========= RESERVA → WHATSAPP ========= */
+const dt=document.getElementById('rData'); const hoje=new Date(); hoje.setMinutes(hoje.getMinutes()-hoje.getTimezoneOffset());
+dt.min=hoje.toISOString().slice(0,10); dt.value=dt.min;
+document.getElementById('resForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const nome=document.getElementById('rNome');
+  if(!nome.value.trim()){nome.focus();nome.style.borderColor='#d62e1f';return}
+  const d=dt.value?dt.value.split('-').reverse().join('/'):'';
+  const dia=dt.value?new Date(dt.value+'T12:00').getDay():-1;
+  if(dia===0){alertBox('Aos domingos estamos fechados. Escolha outro dia 😉');return}
+  const msg=`🔥 *Reserva - Brasa & Lenha* 🔥%0A%0A`+
+    `*Nome:* ${encodeURIComponent(nome.value.trim())}%0A`+
+    `*Data:* ${d}%0A*Horário:* ${document.getElementById('rHora').value}%0A`+
+    `*Pessoas:* ${document.getElementById('rPessoas').value}%0A`+
+    `*Ocasião:* ${encodeURIComponent(document.getElementById('rOcasiao').value)}%0A`+
+    (document.getElementById('rObs').value.trim()?`*Obs.:* ${encodeURIComponent(document.getElementById('rObs').value.trim())}%0A`:'')+
+    `%0AAguardo a confirmação!`;
+  window.open(`https://wa.me/${WHATS}?text=${msg}`,'_blank');
+});
+function alertBox(t){const f=document.querySelector('.res-form .fine');f.textContent=t;f.style.color='#d62e1f';f.style.fontWeight='700'}
+
+/* ========= TOUR 360 ========= */
+let viewer=null;
+const tio=new IntersectionObserver(es=>{if(es[0].isIntersecting&&!viewer&&window.pannellum){
+  viewer=pannellum.viewer('pano',{type:'equirectangular',panorama:'tour-fachada.jpg',autoLoad:true,autoRotate:-2,
+    yaw:-93,pitch:2,hfov:100,minPitch:-30,maxPitch:60,showControls:true,compass:false,
+    hotSpots:[{pitch:-2,yaw:-93,type:'info',text:'Brasa & Lenha Pizzaria · Av. Curitiba, 1716'}]});
+  tio.disconnect();
+}},{rootMargin:'300px'});
+tio.observe(document.getElementById('pano'));
+</script>
+</body>
+</html>
